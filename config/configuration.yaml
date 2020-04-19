@@ -21,4 +21,23 @@ vacuum:
   token: !secret vacuum_token
   name: Vacuum Cleaner
 
+fan:
+  - platform: xiaomi_miio
+    model: zhimi.airpurifier.v6
+    host: !secret purifier_1_host
+    token: !secret purifier_1_token
+    name: Bedroom Air Purifier
+
+  - platform: xiaomi_miio
+    model: zhimi.airpurifier.m1
+    host: !secret purifier_2_host
+    token: !secret purifier_2_token
+    name: Living Room Air Purifier
+
+  - platform: xiaomi_miio
+    model: zhimi.airpurifier.m1
+    host: !secret purifier_3_host
+    token: !secret purifier_3_token
+    name: Kitchen Air Purifier
+
 cloud:

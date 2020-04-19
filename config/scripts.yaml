@@ -54,6 +54,7 @@ clean_living_room:
         params: [2]
 
 stop_cleaning:
+  alias: "Stop Cleaning"
   sequence:
     - service: vacuum.return_to_base
       entity_id: vacuum.vacuum_cleaner
