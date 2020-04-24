@@ -1,4 +1,4 @@
-- alias: Live control Living Room Air Purifier
+- alias: Adjust Living Room Air Purifier in real-time
   trigger:
     - platform: time_pattern
       seconds: 30
@@ -17,7 +17,7 @@
             idle
           {% endif %}
           
-- alias: Live control Kitchen Air Purifier
+- alias: Adjust Kitchen Air Purifier in real-time
   trigger:
     - platform: time_pattern
       seconds: 30
@@ -36,21 +36,22 @@
             idle
           {% endif %}
 
-- alias: Live control Bedroom Air Purifier
+- alias: Adjust Bedroom Air Purifier in real-time
   trigger:
     - platform: time_pattern
       seconds: 30
   action:
     - service: xiaomi_miio.fan_set_volume
       entity_id: fan.bedroom_air_purifier
-      volume: 0
+      data:
+        volume: 0
     - service: fan.set_speed
       entity_id: fan.bedroom_air_purifier
       data_template:
         speed: >
-          {% if states.fan.living_room_air_purifier.attributes.aqi | int > 20 %}
+          {% if states.fan.bedroom_air_purifier.attributes.aqi | int > 20 %}
             favorite
-          {% elif states.fan.living_room_air_purifier.attributes.aqi | int > 5 %}
+          {% elif states.fan.bedroom_air_purifier.attributes.aqi | int > 5 %}
             auto
           {% else %}
             idle
