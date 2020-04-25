@@ -2,6 +2,10 @@
   trigger:
     - platform: time_pattern
       seconds: 30
+  condition:
+    - condition: time
+      after: '07:00:00'
+      before: '23:59:00'
   action:
     - service: xiaomi_miio.fan_set_buzzer_off
       entity_id: fan.living_room_air_purifier
@@ -16,11 +20,42 @@
           {% else %}
             idle
           {% endif %}
+    - service: fan.set_speed
+      entity_id: fan.fan_set_favorite_level
+      data_template:
+        level: >
+          {% if states.fan.kitchen_air_purifier.attributes.aqi | int > 70 %}
+            16
+          {% elif states.fan.kitchen_air_purifier.attributes.aqi | int > 50 %}
+            12
+          {% else %}
+            8
+          {% endif %}
+
+- alias: Turn off Living Room Air Purifier for the night
+  trigger:
+    - platform: time
+      at: '23:59:00'
+  action:
+    - service: fan.turn_off
+      entity_id: fan.living_room_air_purifier
+
+- alias: Turn on Living Room Air Purifier for the day
+  trigger:
+    - platform: time
+      at: '07:00:00'
+  action:
+    - service: fan.turn_on
+      entity_id: fan.living_room_air_purifier
           
 - alias: Adjust Kitchen Air Purifier in real-time
   trigger:
     - platform: time_pattern
       seconds: 30
+  condition:
+    - condition: time
+      after: '07:00:00'
+      before: '22:00:00'
   action:
     - service: xiaomi_miio.fan_set_buzzer_off
       entity_id: fan.kitchen_air_purifier
@@ -35,6 +70,33 @@
           {% else %}
             idle
           {% endif %}
+    - service: fan.set_speed
+      entity_id: fan.fan_set_favorite_level
+      data_template:
+        level: >
+          {% if states.fan.kitchen_air_purifier.attributes.aqi | int > 70 %}
+            16
+          {% elif states.fan.kitchen_air_purifier.attributes.aqi | int > 50 %}
+            12
+          {% else %}
+            8
+          {% endif %}
+
+- alias: Turn off Kitchen Air Purifier for the night
+  trigger:
+    - platform: time
+      at: '22:00:00'
+  action:
+    - service: fan.turn_off
+      entity_id: fan.kitchen_air_purifier
+
+- alias: Turn on Kitchen Air Purifier for the day
+  trigger:
+    - platform: time
+      at: '07:00:00'
+  action:
+    - service: fan.turn_on
+      entity_id: fan.kitchen_air_purifier
 
 - alias: Adjust Bedroom Air Purifier in real-time
   trigger:
@@ -55,5 +117,16 @@
             auto
           {% else %}
             idle
+          {% endif %}
+    - service: fan.set_speed
+      entity_id: fan.fan_set_favorite_level
+      data_template:
+        level: >
+          {% if states.fan.bedroom_air_purifier.attributes.aqi | int > 40 %}
+            16
+          {% elif states.fan.bedroom_air_purifier.attributes.aqi | int > 30 %}
+            12
+          {% else %}
+            8
           {% endif %}
 
