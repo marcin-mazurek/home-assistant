@@ -1,7 +1,7 @@
 - alias: Adjust Living Room Air Purifier in real-time
   trigger:
     - platform: time_pattern
-      seconds: 30
+      seconds: "/30"
   condition:
     - condition: time
       after: '07:00:00'
@@ -51,7 +51,7 @@
 - alias: Adjust Kitchen Air Purifier in real-time
   trigger:
     - platform: time_pattern
-      seconds: 30
+      seconds: "/30"
   condition:
     - condition: time
       after: '07:00:00'
@@ -101,7 +101,7 @@
 - alias: Adjust Bedroom Air Purifier in real-time
   trigger:
     - platform: time_pattern
-      seconds: 30
+      seconds: "/30"
   action:
     - service: xiaomi_miio.fan_set_volume
       entity_id: fan.bedroom_air_purifier
